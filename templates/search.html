@@ -1,0 +1,191 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container">
+
+    <h1>Search Lost & Found Items</h1>
+
+    <p>
+        Search for reported lost and found items.
+    </p>
+
+    <form method="GET" action="{{ url_for('search') }}">
+
+        <div class="form-group">
+            <label for="keyword">Keyword</label>
+
+            <input
+                type="text"
+                id="keyword"
+                name="keyword"
+                placeholder="e.g. wallet, phone, ID card"
+                value="{{ keyword }}"
+            >
+        </div>
+
+
+        <div class="form-group">
+
+            <label for="category">Category</label>
+
+            <select id="category" name="category">
+
+                <option value="">All Categories</option>
+
+                <option value="Electronics"
+                    {% if category == "Electronics" %}selected{% endif %}>
+                    Electronics
+                </option>
+
+                <option value="Documents"
+                    {% if category == "Documents" %}selected{% endif %}>
+                    Documents
+                </option>
+
+                <option value="Wallet"
+                    {% if category == "Wallet" %}selected{% endif %}>
+                    Wallet
+                </option>
+
+                <option value="Keys"
+                    {% if category == "Keys" %}selected{% endif %}>
+                    Keys
+                </option>
+
+                <option value="Bag"
+                    {% if category == "Bag" %}selected{% endif %}>
+                    Bag
+                </option>
+
+                <option value="Clothing"
+                    {% if category == "Clothing" %}selected{% endif %}>
+                    Clothing
+                </option>
+
+                <option value="Accessories"
+                    {% if category == "Accessories" %}selected{% endif %}>
+                    Accessories
+                </option>
+
+                <option value="Other"
+                    {% if category == "Other" %}selected{% endif %}>
+                    Other
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label for="location">Location</label>
+
+            <input
+                type="text"
+                id="location"
+                name="location"
+                placeholder="e.g. College Library"
+                value="{{ location }}"
+            >
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label for="item_type">Report Type</label>
+
+            <select id="item_type" name="item_type">
+
+                <option value="">Lost & Found</option>
+
+                <option value="LOST"
+                    {% if item_type == "LOST" %}selected{% endif %}>
+                    Lost Items
+                </option>
+
+                <option value="FOUND"
+                    {% if item_type == "FOUND" %}selected{% endif %}>
+                    Found Items
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <button type="submit">
+            Search
+        </button>
+
+    </form>
+
+
+    <hr>
+
+
+    <h2>
+        Search Results ({{ items|length }})
+    </h2>
+
+
+    {% if items %}
+
+        <div class="item-list">
+
+            {% for item in items %}
+
+                <div class="item-card">
+
+                    <h3>
+                        {{ item.name }}
+                    </h3>
+
+                    <p>
+                        <strong>Type:</strong>
+                        {{ item.item_type }}
+                    </p>
+
+                    <p>
+                        <strong>Category:</strong>
+                        {{ item.category }}
+                    </p>
+
+                    <p>
+                        <strong>Location:</strong>
+                        {{ item.location }}
+                    </p>
+
+                    <p>
+                        <strong>Date:</strong>
+                        {{ item.date }}
+                    </p>
+
+                    <p>
+                        <strong>Status:</strong>
+                        {{ item.status }}
+                    </p>
+
+                    <a href="{{ url_for('item_detail', item_id=item.item_id) }}">
+                        View Details
+                    </a>
+
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+    {% else %}
+
+        <p>
+            No matching items found.
+        </p>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,125 @@
+{% extends "base.html" %}
+
+{% block title %}Item Details - Lost & Found{% endblock %}
+
+{% block content %}
+
+<div class="container">
+
+    <h1>{{ item.name }}</h1>
+
+    <p>
+        <strong>Type:</strong> {{ item.item_type }}
+    </p>
+
+    <p>
+        <strong>Category:</strong> {{ item.category }}
+    </p>
+
+    <p>
+        <strong>Description:</strong> {{ item.description }}
+    </p>
+
+    <p>
+        <strong>Location:</strong> {{ item.location }}
+    </p>
+
+    <p>
+        <strong>Date:</strong> {{ item.date }}
+    </p>
+
+    <p>
+        <strong>Status:</strong> {{ item.status }}
+    </p>
+
+
+    <!-- Submit Claim Button -->
+
+    {% if session.get("email") and item.status == "Open" and item.reported_by != session.get("email") %}
+
+        <p>
+            <a
+                href="{{ url_for('submit_claim', item_id=item.item_id) }}"
+                class="button"
+            >
+                Submit Claim
+            </a>
+        </p>
+
+    {% endif %}
+
+
+    <!-- Item Photo -->
+
+    {% if image_url %}
+
+        <h3>Item Photo</h3>
+
+        <img
+            src="{{ image_url }}"
+            alt="Photo of {{ item.name }}"
+            style="max-width: 500px; width: 100%; height: auto; border-radius: 10px;"
+        >
+
+    {% else %}
+
+        <p>No photo uploaded.</p>
+
+    {% endif %}
+
+
+    <!-- Possible Matches -->
+
+    {% if matches %}
+
+        <h2>Possible Matches</h2>
+
+        {% for match in matches %}
+
+            <div class="item-card">
+
+                <h3>
+                    {{ match.item.name }}
+                </h3>
+
+                <p>
+                    <strong>Type:</strong>
+                    {{ match.item.item_type }}
+                </p>
+
+                <p>
+                    <strong>Category:</strong>
+                    {{ match.item.category }}
+                </p>
+
+                <p>
+                    <strong>Location:</strong>
+                    {{ match.item.location }}
+                </p>
+
+                <p>
+                    <strong>Date:</strong>
+                    {{ match.item.date }}
+                </p>
+
+                <p>
+                    <strong>Match Score:</strong>
+                    {{ match.score }}%
+                </p>
+
+                <a
+                    href="{{ url_for('item_detail', item_id=match.item.item_id) }}"
+                    class="button"
+                >
+                    View Item
+                </a>
+
+            </div>
+
+        {% endfor %}
+
+    {% endif %}
+
+</div>
+
+{% endblock %}

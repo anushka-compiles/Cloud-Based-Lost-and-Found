@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+
+{% block title %}Admin Dashboard - Lost & Found{% endblock %}
+
+{% block content %}
+
+<div class="container">
+
+    <h1>Admin Dashboard</h1>
+
+    <p>
+        Review and manage submitted claims.
+    </p>
+
+    {% if claims %}
+
+        {% for claim in claims %}
+
+            <div class="item-card">
+
+                <h2>{{ claim.item_name }}</h2>
+
+                <p>
+                    <strong>Claimant:</strong>
+                    {{ claim.claimant_email }}
+                </p>
+
+                <p>
+                    <strong>Item Type:</strong>
+                    {{ claim.item_type }}
+                </p>
+
+                <p>
+                    <strong>Category:</strong>
+                    {{ claim.category }}
+                </p>
+
+                <p>
+                    <strong>Location:</strong>
+                    {{ claim.location }}
+                </p>
+
+                <p>
+                    <strong>Date:</strong>
+                    {{ claim.date }}
+                </p>
+
+                <p>
+                    <strong>Claim Message:</strong>
+                    {{ claim.message }}
+                </p>
+
+                <p>
+                    <strong>Claim Status:</strong>
+                    {{ claim.status }}
+                </p>
+
+                {% if claim.status == "Pending" %}
+
+                    <form
+                        method="POST"
+                        action="{{ url_for('approve_claim', claim_id=claim.claim_id) }}"
+                        style="display: inline;"
+                    >
+                        <button type="submit">
+                            Approve Claim
+                        </button>
+                    </form>
+
+                    <form
+                        method="POST"
+                        action="{{ url_for('reject_claim', claim_id=claim.claim_id) }}"
+                        style="display: inline;"
+                    >
+                        <button type="submit">
+                            Reject Claim
+                        </button>
+                    </form>
+
+                {% endif %}
+
+            </div>
+
+        {% endfor %}
+
+    {% else %}
+
+        <p>No claims have been submitted yet.</p>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}

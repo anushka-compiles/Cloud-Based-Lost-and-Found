@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+
+{% block title %}Submit Claim - Lost & Found{% endblock %}
+
+{% block content %}
+
+<div class="container">
+
+    <h1>Submit a Claim</h1>
+
+    <p>
+        You are submitting a claim for the following item:
+    </p>
+
+    <div class="item-card">
+
+        <h2>{{ item.name }}</h2>
+
+        <p>
+            <strong>Type:</strong>
+            {{ item.item_type }}
+        </p>
+
+        <p>
+            <strong>Category:</strong>
+            {{ item.category }}
+        </p>
+
+        <p>
+            <strong>Location:</strong>
+            {{ item.location }}
+        </p>
+
+        <p>
+            <strong>Date:</strong>
+            {{ item.date }}
+        </p>
+
+    </div>
+
+
+    <form method="POST">
+
+        <div class="form-group">
+
+            <label for="message">
+                Why do you believe this item belongs to you?
+            </label>
+
+            <textarea
+                id="message"
+                name="message"
+                rows="6"
+                placeholder="Provide details that can help verify your claim..."
+                required
+            ></textarea>
+
+        </div>
+
+
+        <button type="submit">
+            Submit Claim
+        </button>
+
+    </form>
+
+</div>
+
+{% endblock %}
